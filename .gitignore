@@ -1,0 +1,25 @@
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+secrets.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Dependencies (if a build step is added later)
+node_modules/
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*

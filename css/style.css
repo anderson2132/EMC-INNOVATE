@@ -386,8 +386,8 @@ h1, h2, h3, h4, h5 {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .floating-icon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
+  width: 46px; height: 46px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   background: var(--grad);
   color: white;
@@ -487,8 +487,8 @@ h1, h2, h3, h4, h5 {
   flex-shrink: 0;
 }
 .icon-svg-sm {
-  width: 19px;
-  height: 19px;
+  width: 25px;
+  height: 25px;
   flex-shrink: 0;
 }
 .icon-blue { background: linear-gradient(135deg, #1e6bff, #0a1d3d); }

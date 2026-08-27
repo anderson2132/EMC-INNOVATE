@@ -135,6 +135,15 @@ h1, h2, h3, h4, h5 {
 }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -10px rgba(30,107,255, 0.8); }
 
+.hero-actions .btn-primary { transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease; }
+.hero-actions .btn-primary:hover {
+  transform: translateY(-2px) scale(1.05);
+  filter: brightness(1.12);
+  box-shadow: 0 14px 34px -10px rgba(30,107,255, 0.8), 0 0 28px rgba(79,140,255,0.65);
+}
+.hero-actions .btn-primary i { transition: transform 0.25s ease; }
+.hero-actions .btn-primary:hover i { transform: translateX(4px); }
+
 .btn-outline {
   background: transparent;
   border-color: var(--border);
@@ -459,6 +468,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .service-card {
+  position: relative;
+  overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -469,9 +480,21 @@ h1, h2, h3, h4, h5 {
 }
 .service-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(30,107,255,0.4);
-  box-shadow: var(--shadow);
+  border-color: rgba(34,211,238,0.7);
+  box-shadow: var(--shadow), 0 0 0 1px rgba(34,211,238,0.45), 0 0 16px rgba(34,211,238,0.3);
 }
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -35%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(34,211,238,0.14), transparent);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+.service-card:hover::before { left: 125%; }
 
 .service-icon {
   width: 52px; height: 52px;

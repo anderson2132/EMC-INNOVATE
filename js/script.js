@@ -35,8 +35,21 @@ function initHeroNetwork() {
   const NODE_RGB = '223, 232, 255';
   const LINE_RGB = '79, 140, 255';
   const LINK_DIST = 150;
+  const MOUSE_RADIUS = 170;
 
   let width, height, dpr, nodes, rafId;
+  const mouse = { x: 0, y: 0, active: false };
+
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    mouse.active = false;
+  });
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -66,7 +79,35 @@ function initHeroNetwork() {
       n.y += n.vy;
       if (n.x < 0 || n.x > width) n.vx *= -1;
       if (n.y < 0 || n.y > height) n.vy *= -1;
+
+      if (mouse.active) {
+        const dx = n.x - mouse.x;
+        const dy = n.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MOUSE_RADIUS && dist > 0.01) {
+          const push = (1 - dist / MOUSE_RADIUS) * 0.6;
+          n.x += (dx / dist) * push;
+          n.y += (dy / dist) * push;
+        }
+      }
     });
+
+    if (mouse.active) {
+      nodes.forEach(n => {
+        const dx = n.x - mouse.x;
+        const dy = n.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MOUSE_RADIUS) {
+          const alpha = (1 - dist / MOUSE_RADIUS) * 0.6;
+          ctx.strokeStyle = `rgba(${LINE_RGB}, ${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      });
+    }
 
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {

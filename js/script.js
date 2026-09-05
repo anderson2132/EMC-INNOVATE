@@ -1,3 +1,13 @@
+// Google Analytics 4
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
+gtag('js', new Date());
+gtag('config', 'G-4RBC3X2MB1');
+
+function trackEvent(name, params) {
+  gtag('event', name, params || {});
+}
+
 document.getElementById('year').textContent = new Date().getFullYear();
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -277,6 +287,23 @@ const serviceSelect = document.getElementById('service');
 document.querySelectorAll('.service-link[data-service]').forEach(link => {
   link.addEventListener('click', () => {
     serviceSelect.value = link.dataset.service;
+    trackEvent('click_solicitar_cotizacion', { service: link.dataset.service });
+  });
+});
+
+// WhatsApp floating button
+const whatsappFloat = document.querySelector('.whatsapp-float');
+if (whatsappFloat) {
+  whatsappFloat.addEventListener('click', () => {
+    trackEvent('contact_whatsapp', { method: 'floating_button' });
+  });
+}
+
+// "Cotizar proyecto" CTAs (header, hero, about, service card)
+document.querySelectorAll('a.btn-primary[href="#contacto"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const source = btn.closest('section, header');
+    trackEvent('click_cotizar', { location: source ? source.id || source.className : 'unknown' });
   });
 });
 
@@ -328,6 +355,8 @@ contactForm.addEventListener('submit', (e) => {
     formNote.style.color = 'var(--danger)';
     return;
   }
+
+  trackEvent('generate_lead', { method: 'contact_form', service: serviceSelect.value });
 
   formNote.style.color = 'var(--blue-light)';
   formNote.textContent = '¡Gracias! Tu mensaje fue registrado (demo local, aún sin envío real).';
